@@ -67,7 +67,7 @@ public:
     {
         std::cout << __PRETTY_FUNCTION__ << "[p = " << p << "]" << std::endl;
         new(p) U(std::forward<Args>(args)...);
-    };
+    }
 
     void destroy(T *p) 
     {
