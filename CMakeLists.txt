@@ -18,7 +18,7 @@ target_link_libraries(allocator_cli PRIVATE
     factorial
 )
 
-target_include_directories(allocator
+target_include_directories(factorial
     PRIVATE "${CMAKE_BINARY_DIR}"
 )
 
@@ -26,14 +26,14 @@ if (MSVC)
     target_compile_options(allocator_cli PRIVATE
         /W4
     )
-    target_compile_options(allocator PRIVATE
+    target_compile_options(factorial PRIVATE
         /W4
     )
 else ()
     target_compile_options(allocator_cli PRIVATE
         -Wall -Wextra -pedantic -Werror
     )
-    target_compile_options(allocator PRIVATE
+    target_compile_options(factorial PRIVATE
         -Wall -Wextra -pedantic -Werror
     )
 endif()
