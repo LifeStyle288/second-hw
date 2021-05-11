@@ -37,7 +37,7 @@ public:
     T* allocate(std::size_t n)
     {
         UNUSED(n);
-        std::cout << __PRETTY_FUNCTION__ << "[n = " << n << "]" << std::endl;
+        // std::cout << __PRETTY_FUNCTION__ << "[n = " << n << "]" << std::endl;
         if (!m_next)
         {
             throw std::bad_alloc();
@@ -50,7 +50,7 @@ public:
     void deallocate(T *p, std::size_t n)
     {
         UNUSED(n);
-        std::cout << __PRETTY_FUNCTION__ << "[p = " << p << "]" << std::endl;
+        // std::cout << __PRETTY_FUNCTION__ << "[p = " << p << "]" << std::endl;
         Chunk* chunk = reinterpret_cast<Chunk*>(p);
         Convert(*chunk) = m_next;
         m_next = chunk;
@@ -65,13 +65,13 @@ public:
     template <typename U, typename ...Args>
     void construct(U *p, Args &&...args)
     {
-        std::cout << __PRETTY_FUNCTION__ << "[p = " << p << "]" << std::endl;
+        // std::cout << __PRETTY_FUNCTION__ << "[p = " << p << "]" << std::endl;
         new(p) U(std::forward<Args>(args)...);
     }
 
     void destroy(T *p) 
     {
-        std::cout << __PRETTY_FUNCTION__ << "[p = " << p << "]" << std::endl;
+        // std::cout << __PRETTY_FUNCTION__ << "[p = " << p << "]" << std::endl;
         p->~T();
     }
 private:
@@ -85,7 +85,7 @@ private:
         // build list
         for (size_t i = 1; i < m_buffer.size(); ++i)
         {
-            std::cout << "[m_buffer[i] = " << (int*)&m_buffer[i].data[0] << "]" << std::endl;
+            // std::cout << "[m_buffer[i] = " << (int*)&m_buffer[i].data[0] << "]" << std::endl;
             Convert(m_buffer[i - 1]) = &m_buffer[i];
         }
 
