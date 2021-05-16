@@ -11,7 +11,7 @@
 int main(int, char *[]) 
 {
     std::map<int, int> m1;
-    std::map<int, int, std::less<int>, MyAllocatorMap<int, int, MAX_ELEMENTS>> m2;
+    std::map<int, int, std::less<int>, MyAllocatorMap<int, int, MAX_ELEMENTS>> m2; 
     for (size_t i = 0; i < MAX_ELEMENTS; ++i)
     {
         m1.insert({i, factorial(i)});
