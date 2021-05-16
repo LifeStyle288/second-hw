@@ -8,13 +8,10 @@
 
 #define MAX_ELEMENTS 10
 
-using MyAllocatorMap = MyAllocator<std::pair<const int, const int>, MAX_ELEMENTS>;
-using MyAllocatorVec = MyAllocator<int, MAX_ELEMENTS>;
-
 int main(int, char *[]) 
 {
     std::map<int, int> m1;
-    std::map<int, int, std::less<int>, MyAllocatorMap> m2;
+    std::map<int, int, std::less<int>, MyAllocatorMap<int, int, MAX_ELEMENTS>> m2;
     for (size_t i = 0; i < MAX_ELEMENTS; ++i)
     {
         m1.insert({i, factorial(i)});
@@ -24,7 +21,7 @@ int main(int, char *[])
     print_map(m2);
 
     SimpleVector<int> vec1;
-    std::vector<int, MyAllocatorVec> vec2;
+    std::vector<int, MyAllocatorVec<int, MAX_ELEMENTS>> vec2;
     for (size_t i = 0; i < MAX_ELEMENTS; ++i) 
     {
         vec1.push_back(i);

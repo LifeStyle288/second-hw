@@ -7,13 +7,8 @@
 #define UNUSED(val) (void)val
 
 template <typename T, int N>
-class MyAllocator
+struct MyAllocator
 {
-    struct Chunk
-    {
-        char data[sizeof(T) > sizeof(void*) ? sizeof(T) : sizeof(void*)];
-    };
-public:
     using value_type = T;
 
     template <typename U>
@@ -22,39 +17,27 @@ public:
         using other = MyAllocator<U, N>;
     };
 
-    MyAllocator() : m_buffer(N), m_next(nullptr)
-    {
-        CreateDependencies();
-    }
+    MyAllocator() = default;
     ~MyAllocator() = default;
 
     template <typename U, int M> 
-    MyAllocator(const MyAllocator<U, M>&) : m_buffer(N), m_next(nullptr)
-    {
-        CreateDependencies();
-    }
+    MyAllocator(const MyAllocator<U, M>&) {}
 
     T* allocate(std::size_t n)
     {
         UNUSED(n);
-        // std::cout << __PRETTY_FUNCTION__ << "[n = " << n << "]" << std::endl;
-        if (!m_next)
+        auto p = std::malloc(sizeof(T) * N);
+        if (!p)
         {
             throw std::bad_alloc();
         }
-        void* next = m_next;
-        m_next = Convert(*m_next);
-        return reinterpret_cast<T*>(next);
+        return reinterpret_cast<T*>(p);
     }
 
     void deallocate(T *p, std::size_t n)
     {
         UNUSED(n);
-        // std::cout << __PRETTY_FUNCTION__ << "[p = " << p << "]" << std::endl;
-        Chunk* chunk = reinterpret_cast<Chunk*>(p);
-        Convert(*chunk) = m_next;
-        m_next = chunk;
-        p = reinterpret_cast<T*>(Convert(*m_next));
+        std::free(p);
     }
 
     std::size_t max_size() const
@@ -74,26 +57,11 @@ public:
         // std::cout << __PRETTY_FUNCTION__ << "[p = " << p << "]" << std::endl;
         p->~T();
     }
-private:
-    Chunk*& Convert(Chunk& chunk) const
-    {
-        return reinterpret_cast<Chunk*&>(chunk.data);
-    }
-
-    void CreateDependencies()
-    {
-        // build list
-        for (size_t i = 1; i < m_buffer.size(); ++i)
-        {
-            // std::cout << "[m_buffer[i] = " << (int*)&m_buffer[i].data[0] << "]" << std::endl;
-            Convert(m_buffer[i - 1]) = &m_buffer[i];
-        }
-
-        m_next = &m_buffer[0];
-    }
-
-    std::vector<Chunk> m_buffer;
-    Chunk* m_next;
 };
+
+template <typename T, typename U, int K>
+using MyAllocatorMap = MyAllocator<std::pair<const T, const U>, K>;
+template <typename T, int K>
+using MyAllocatorVec = MyAllocator<T, K>;
 
 #endif // MY_ALLOCATOR_H
