@@ -34,7 +34,7 @@ public:
         while (it != il.end())
         {
             push_back(*it);
-            std::next(il);
+            std::next(it);
         }
     }
     ~SimpleVector() 
