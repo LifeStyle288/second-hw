@@ -19,7 +19,12 @@ BOOST_AUTO_TEST_CASE(test_map_allocate)
         m.insert({i, factorial(i)});
     }
     const TestMap sample = {{0, 1}, {1, 1}, {2, 2}, {3, 6}, {4, 24}, {5, 120}, {6, 720}, {7, 5040}, {8, 40320}, {9, 362880}};
-    BOOST_CHECK_EQUAL_COLLECTIONS(sample.begin(), sample.end(), m.begin(), m.end());
+    TestMap::const_iterator it1 = m.begin();
+    TestMap::const_iterator it2 = sample.begin();
+    for (; it1 != m.end(); ++it1, ++it2) 
+    {
+        BOOST_CHECK_EQUAL(*it1, *it2);
+    }
     BOOST_CHECK_THROW(m.insert({10, factorial(10)}), std::bad_alloc);
 }
 
