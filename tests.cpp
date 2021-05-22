@@ -10,12 +10,6 @@
 
 BOOST_AUTO_TEST_SUITE(tests)
 
-
-BOOST_AUTO_TEST_CASE(test_valid_version)
-{
-    BOOST_CHECK(version() > 0);
-}
-
 BOOST_AUTO_TEST_CASE(test_map_allocate)
 {
     using TestMap = std::map<int, int, std::less<int>, MyAllocatorMap<int, int, 10>>;
