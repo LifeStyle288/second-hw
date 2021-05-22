@@ -22,7 +22,7 @@ if (Boost_FOUND)
     )
     target_link_libraries(tests
         ${Boost_LIBRARIES}
-        allocator_cli
+        factorial
     )
     set(TESTS tests)
 else ()
