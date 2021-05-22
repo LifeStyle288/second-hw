@@ -5,7 +5,6 @@
 #include <algorithm>
 #include <memory>
 #include <initializer_list>
-#include <iterator>
 
 template <typename T, typename Alloc = std::allocator<T>>
 class SimpleVector
@@ -31,10 +30,10 @@ public:
         m_data(m_alloc.allocate(m_capacity))
     {
         typename std::initializer_list<T>::const_iterator it = il.begin();
-        while (it != il.end())
+        while (it < il.end())
         {
             push_back(*it);
-            std::next(it);
+            ++it;
         }
     }
     ~SimpleVector() 
