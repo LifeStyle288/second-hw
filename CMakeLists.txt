@@ -7,10 +7,6 @@ else ()
     project(allocator)
 endif()
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED on)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror")
-
 add_executable(allocator_cli main.cpp)
 add_library(factorial factorial.cpp)
 
@@ -28,6 +24,11 @@ if (Boost_FOUND)
 else ()
     set(TESTS)
 endif()
+
+set_target_properties(helloworld_cli helloworld ${TESTS} PROPERTIES
+    CXX_STANDARD 17
+    CXX_STANDARD_REQUIRED ON
+)
 
 target_include_directories(factorial
     PRIVATE "${CMAKE_BINARY_DIR}"
