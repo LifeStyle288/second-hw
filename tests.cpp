@@ -23,7 +23,7 @@ BOOST_AUTO_TEST_CASE(test_map_allocate)
     TestMap::const_iterator it2 = sample.begin();
     for (; it1 != m.end(); ++it1, ++it2) 
     {
-        BOOST_CHECK_EQUAL(*it1, *it2);
+        BOOST_CHECK_EQUAL(*it1 == *it2);
     }
     BOOST_CHECK_THROW(m.insert({10, factorial(10)}), std::bad_alloc);
 }
