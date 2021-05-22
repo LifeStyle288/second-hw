@@ -16,12 +16,12 @@ public:
         m_capacity(0),
         m_data(m_alloc.allocate(m_capacity))
     {}
-    // explicit SimpleVector(const size_t size) : 
-    //     m_alloc(Alloc()),
-    //     m_size(0), 
-    //     m_capacity(size),
-    //     m_data()
-    // {}
+    explicit SimpleVector(const size_t capacity) : 
+        m_alloc(Alloc()),
+        m_size(0), 
+        m_capacity(capacity),
+        m_data(m_alloc.allocate(m_capacity))
+    {}
     ~SimpleVector() 
     {
         for (size_t i = 0; i < m_size; ++i)
@@ -31,11 +31,12 @@ public:
         m_alloc.deallocate(m_data, m_size);
     }
 
-    // void reserve(const size_t capacity)
-    // {
-    //     m_capacity = capacity;
-    //     m_data = m_alloc.allocate(m_capacity);
-    // }
+    void reserve(const size_t capacity)
+    {
+        m_alloc.deallocate(m_data, m_size);
+        m_capacity = capacity;
+        m_data = m_alloc.allocate(m_capacity);
+    }
 
     T& operator[](const size_t index) 
     {

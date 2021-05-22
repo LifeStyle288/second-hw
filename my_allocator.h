@@ -25,7 +25,10 @@ struct MyAllocator
 
     T* allocate(std::size_t n)
     {
-        UNUSED(n);
+        if (n > N)
+        {
+            throw std::bad_alloc();
+        }
         void* p;
         if (m_cnt == 0)
         {
@@ -36,7 +39,7 @@ struct MyAllocator
             }
             p = m_ptr;
         }
-        else if (m_cnt < N)
+        else if (m_cnt < N && n == 1)
         {
             p = (void*)((uint8_t*)m_ptr + sizeof(T) * m_cnt);
         }
@@ -44,7 +47,7 @@ struct MyAllocator
         {
             throw std::bad_alloc();
         }
-        std::cout << __PRETTY_FUNCTION__ << "[p = " << p << "]" << std::endl;
+        // std::cout << __PRETTY_FUNCTION__ << "[p = " << p << "]" << std::endl;
         ++m_cnt;
         return reinterpret_cast<T*>(p);
     }
@@ -52,8 +55,13 @@ struct MyAllocator
     void deallocate(T *p, std::size_t n)
     {
         UNUSED(n);
-        std::free(p);
-        m_cnt = 0;
+        // std::cout << __PRETTY_FUNCTION__ << "[p = " << p << "]" << std::endl;
+        if (p == m_ptr)
+        {
+            m_cnt = 0;
+            std::free(m_ptr);
+            m_ptr = nullptr;
+        }
     }
 
     template <typename U, typename ...Args>
@@ -67,8 +75,8 @@ struct MyAllocator
         p->~T();
     }
 private:
-    void* m_ptr;
     size_t m_cnt = 0;
+    void* m_ptr;
 };
 
 template <typename T, typename U, int K>

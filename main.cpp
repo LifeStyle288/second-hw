@@ -21,7 +21,7 @@ int main(int, char *[])
     print_map(m2);
 
     SimpleVector<int> vec1;
-    std::vector<int, MyAllocatorVec<int, MAX_ELEMENTS>> vec2;
+    SimpleVector<int, MyAllocatorVec<int, MAX_ELEMENTS>> vec2(MAX_ELEMENTS);
     for (size_t i = 0; i < MAX_ELEMENTS; ++i) 
     {
         vec1.push_back(i);
