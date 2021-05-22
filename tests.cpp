@@ -64,7 +64,7 @@ BOOST_AUTO_TEST_CASE(test_my_vector_allocate)
     }
     const TestVec sample = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
     BOOST_CHECK_EQUAL_COLLECTIONS(v.begin(), v.end(), sample.begin(), sample.end());
-    BOOST_TEST_MESSAGE("Check equal collections true...")
+    BOOST_TEST_MESSAGE("Check equal collections true...");
     BOOST_CHECK_THROW(v.push_back(111), std::bad_alloc);
     BOOST_TEST_MESSAGE("Stop test_my_vector_allocate...");
 }
