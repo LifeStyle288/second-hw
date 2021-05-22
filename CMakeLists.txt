@@ -25,7 +25,7 @@ else ()
     set(TESTS)
 endif()
 
-set_target_properties(helloworld_cli helloworld ${TESTS} PROPERTIES
+set_target_properties(allocator_cli factorial ${TESTS} PROPERTIES
     CXX_STANDARD 17
     CXX_STANDARD_REQUIRED ON
 )
