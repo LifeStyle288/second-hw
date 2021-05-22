@@ -4,6 +4,7 @@
 #include <cstddef>
 #include <algorithm>
 #include <memory>
+#include <initializer_list>
 
 template <typename T, typename Alloc = std::allocator<T>>
 class SimpleVector
@@ -22,6 +23,19 @@ public:
         m_capacity(capacity),
         m_data(m_alloc.allocate(m_capacity))
     {}
+    SimpleVector(std::initializer_list<T> il) :
+        m_alloc(Alloc()),
+        m_size(0),
+        m_capacity(0),
+        m_data(m_alloc.allocate(m_capacity))
+    {
+        typename std::initializer_list<T>::const_iterator it = il.begin();
+        while (it != il.end())
+        {
+            push_back(*it);
+            ++il;
+        }
+    }
     ~SimpleVector() 
     {
         for (size_t i = 0; i < m_size; ++i)
