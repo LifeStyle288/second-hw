@@ -28,4 +28,22 @@ BOOST_AUTO_TEST_CASE(test_map_allocate)
     BOOST_CHECK_THROW(m.insert({10, factorial(10)}), std::bad_alloc);
 }
 
+BOOST_AUTO_TEST_CASE(test_vector_allocate)
+{
+    using TestVec = std::vector<int, MyAllocatorVec<int, 10>>;
+    TestVec v;
+    for (int i = 0; i < 10; ++i)
+    {
+        if (i > 0)
+        {
+            BOOST_CHECK_THROW(v.push_back(i), std::bad_alloc);
+            break;
+        }
+        else
+        {
+            v.push_back(i);
+        }
+    }
+}
+
 BOOST_AUTO_TEST_SUITE_END()
