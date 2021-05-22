@@ -8,13 +8,15 @@
 #include "simple_vector.h"
 #include "factorial.h"
 
+#define MAX_ELEMENTS 10
+
 BOOST_AUTO_TEST_SUITE(tests)
 
 BOOST_AUTO_TEST_CASE(test_map_allocate)
 {
-    using TestMap = std::map<int, int, std::less<int>, MyAllocatorMap<int, int, 10>>;
+    using TestMap = std::map<int, int, std::less<int>, MyAllocatorMap<int, int, MAX_ELEMENTS>>;
     TestMap m;
-    for (size_t i = 0; i < 10; ++i)
+    for (size_t i = 0; i < MAX_ELEMENTS; ++i)
     {
         m.insert({i, factorial(i)});
     }
@@ -30,9 +32,9 @@ BOOST_AUTO_TEST_CASE(test_map_allocate)
 
 BOOST_AUTO_TEST_CASE(test_vector_allocate)
 {
-    using TestVec = std::vector<int, MyAllocatorVec<int, 10>>;
+    using TestVec = std::vector<int, MyAllocatorVec<int, MAX_ELEMENTS>>;
     TestVec v;
-    for (int i = 0; i < 10; ++i)
+    for (int i = 0; i < MAX_ELEMENTS; ++i)
     {
         if (i > 0)
         {
@@ -44,6 +46,19 @@ BOOST_AUTO_TEST_CASE(test_vector_allocate)
             v.push_back(i);
         }
     }
+}
+
+BOOST_AUTO_TEST_CASE(test_my_vector_allocate)
+{
+    using TestVec = SimpleVector<int, MyAllocatorVec<int, MAX_ELEMENTS>>;
+    TestVec v(MAX_ELEMENTS);
+    for (int i = 0; i < MAX_ELEMENTS; ++i)
+    {
+        v.push_back(i);
+    }
+    const TestVec sample = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    BOOST_CHECK_EQUAL_COLLECTIONS(v.begin(), v.end(), sample.begin(), sample.end());
+    BOOST_CHECK_THROW(v.push_back(111), std::bad_alloc);
 }
 
 BOOST_AUTO_TEST_SUITE_END()
