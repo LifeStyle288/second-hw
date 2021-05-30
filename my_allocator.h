@@ -4,6 +4,9 @@
 #include <string>
 #include <vector>
 
+// #define PR(x) #x << " = " << x << ", "
+// #define PE(x) #x << " = " << x
+
 #define UNUSED(val) (void)val
 
 template <typename T, int N>
@@ -20,9 +23,13 @@ struct MyAllocator
     MyAllocator() = default;
     ~MyAllocator()
     {
-        if (!m_ptr)
+        if (m_ptr != nullptr)
         {
             std::free(m_ptr);
+        }
+        if (m_prev != nullptr)
+        {
+            std::free(m_prev);
         }
     }
 
@@ -31,6 +38,7 @@ struct MyAllocator
 
     T* allocate(std::size_t n)
     {
+        // std::cout << PR(m_cnt) << PE(n) << std::endl;
         if (n > N)
         {
             throw std::bad_alloc();
@@ -38,16 +46,19 @@ struct MyAllocator
         void* p;
         if (m_cnt == 0)
         {
-            m_ptr = std::malloc(sizeof(T) * N);
-            if (!m_ptr)
-            {
-                throw std::bad_alloc();
-            }
+            alloc_mem();
             p = m_ptr;
         }
         else if ((m_cnt + n) <= N)
         {
             p = (void*)((uint8_t*)m_ptr + sizeof(T) * (m_cnt + n - 1));
+        }
+        else if (n <= N)
+        {
+            m_prev = m_ptr;
+            alloc_mem();
+            p = m_ptr;
+            m_cnt = 0;
         }
         else
         {
@@ -68,6 +79,11 @@ struct MyAllocator
             std::free(m_ptr);
             m_ptr = nullptr;
         }
+        else if (p == m_prev)
+        {
+            std::free(m_prev);
+            m_prev = nullptr;
+        }
     }
 
     template <typename U, typename ...Args>
@@ -81,8 +97,17 @@ struct MyAllocator
         p->~T();
     }
 private:
+    void alloc_mem()
+    {
+        m_ptr = std::malloc(sizeof(T) * N);
+        if (!m_ptr)
+        {
+            throw std::bad_alloc();
+        }
+    }
     size_t m_cnt = 0;
-    void* m_ptr;
+    void* m_ptr = nullptr;
+    void* m_prev = nullptr;
 };
 
 template <typename T, typename U, int K>
