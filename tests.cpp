@@ -38,6 +38,7 @@ BOOST_AUTO_TEST_CASE(test_vector_allocate)
     BOOST_TEST_MESSAGE("Start test_vector_allocate...");
     using TestVec = std::vector<int, MyAllocatorVec<int, MAX_ELEMENTS>>;
     TestVec v;
+    v.reserve(MAX_ELEMENTS);
     for (int i = 0; i < MAX_ELEMENTS; ++i)
     {
         BOOST_CHECK_NO_THROW(v.push_back(i));
