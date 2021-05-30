@@ -40,15 +40,7 @@ BOOST_AUTO_TEST_CASE(test_vector_allocate)
     TestVec v;
     for (int i = 0; i < MAX_ELEMENTS; ++i)
     {
-        if (i > 0)
-        {
-            BOOST_CHECK_THROW(v.push_back(i), std::bad_alloc);
-            break;
-        }
-        else
-        {
-            v.push_back(i);
-        }
+        v.push_back(i);
     }
     BOOST_TEST_MESSAGE("Stop test_vector_allocate...");
 }

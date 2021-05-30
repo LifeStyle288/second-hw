@@ -53,7 +53,7 @@ struct MyAllocator
         {
             throw std::bad_alloc();
         }
-        std::cout << __PRETTY_FUNCTION__ << "[p = " << p << "]" << std::endl;
+        // std::cout << __PRETTY_FUNCTION__ << "[p = " << p << "]" << std::endl;
         m_cnt += n;
         return reinterpret_cast<T*>(p);
     }
@@ -61,7 +61,7 @@ struct MyAllocator
     void deallocate(T *p, std::size_t n)
     {
         UNUSED(n);
-        std::cout << __PRETTY_FUNCTION__ << "[p = " << p << "]" << std::endl;
+        // std::cout << __PRETTY_FUNCTION__ << "[p = " << p << "]" << std::endl;
         if (p == m_ptr)
         {
             m_cnt = 0;
