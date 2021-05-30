@@ -33,17 +33,17 @@ BOOST_AUTO_TEST_CASE(test_map_allocate)
     BOOST_TEST_MESSAGE("Stop test_map_allocate...");
 }
 
-BOOST_AUTO_TEST_CASE(test_vector_allocate)
-{
-    BOOST_TEST_MESSAGE("Start test_vector_allocate...");
-    using TestVec = std::vector<int, MyAllocatorVec<int, MAX_ELEMENTS>>;
-    TestVec v;
-    for (int i = 0; i < MAX_ELEMENTS; ++i)
-    {
-        v.push_back(i);
-    }
-    BOOST_TEST_MESSAGE("Stop test_vector_allocate...");
-}
+// BOOST_AUTO_TEST_CASE(test_vector_allocate)
+// {
+//     BOOST_TEST_MESSAGE("Start test_vector_allocate...");
+//     using TestVec = std::vector<int, MyAllocatorVec<int, MAX_ELEMENTS>>;
+//     TestVec v;
+//     for (int i = 0; i < MAX_ELEMENTS; ++i)
+//     {
+//         v.push_back(i);
+//     }
+//     BOOST_TEST_MESSAGE("Stop test_vector_allocate...");
+// }
 
 BOOST_AUTO_TEST_CASE(test_my_vector_allocate)
 {
