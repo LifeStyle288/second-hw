@@ -20,7 +20,10 @@ struct MyAllocator
     MyAllocator() = default;
     ~MyAllocator()
     {
-        std::free(m_ptr);
+        if (!m_ptr)
+        {
+            std::free(m_ptr);
+        }
     }
 
     template <typename U, int M> 
