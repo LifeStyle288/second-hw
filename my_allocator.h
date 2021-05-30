@@ -53,7 +53,7 @@ struct MyAllocator
         {
             p = (void*)((uint8_t*)m_ptr + sizeof(T) * (m_cnt + n - 1));
         }
-        else if (n <= N)
+        else if (n <= N && m_cnt < N)
         {
             m_prev = m_ptr;
             alloc_mem();
