@@ -15,7 +15,8 @@ jobs:
           submodules: true
       - run: cmake .
       - run: cmake --build .
-      - run: cmake --build . --target test --log_level=all
+      # - run: cmake --build . --target test --log_level=all
+      - run: ctest --log_level=all
       - run: cmake --build . --target package
       - name: Create Release
         id: create_release
